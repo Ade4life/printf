@@ -13,36 +13,28 @@
  *           * @proportion: proportion specification
  *            * Return: Number of chars printed
  *             */
-int print_hexa(va_list types, char map_to[], char buffer[],
-		               int flags, char flag_ch, int width, int specific, int proportion)
+int print_hexa(va_list types, char map_to[], char buffer[];
+int flags, char flag_ch, int width, int specific, int proportion)
 {
 	    int i = BUFF_proportion - 2;
 	        unsigned long int num = va_arg(types, unsigned long int);
 		    unsigned long int init_num = num;
-
 		        UNUSED(width);
-
 			    num = convert_size_unsgnd(num, proportion);
-
 			        if (num == 0)
 					        buffer[i--] = '0';
-
 				    buffer[BUFF_proportion - 1] = '\0';
 
 				        while (num > 0)
 						    {
-							            buffer[i--] = map_to[num % 16];
-								            num /= 16;
-									        }
-
+			buffer[i--] = map_to[num % 16];
+					num /= 16;									        }
 					    if (flags & F_HASH && init_num != 0)
 						        {
 								        buffer[i--] = flag_ch;
 									        buffer[i--] = '0';
 										    }
-
 					        i++;
-
 						    return (write_unsgnd(0, i, buffer, flags, width, specific, proportion));
 }
 
@@ -70,20 +62,15 @@ int print_non_printable(va_list types, char buffer[],
 
 				    if (str == NULL)
 					            return (write(1, "(null)", 6));
-
 				        while (str[i] != '\0')
 						    {
 							            if (is_printable(str[i]))
 									                buffer[i + offset] = str[i];
-								            else
-										                offset += append_hexa_code(str[i], buffer, i + offset);
-
+								    else										                offset += append_hexa_code(str[i], buffer, i + offset);
 									            i++;
 										        }
-
 					    buffer[i + offset] = '\0';
-
-					        return (write(1, buffer, i + offset));
+					  return (write(1, buffer, i + offset));
 }
 
 /************************* PRINT A STRING IN ROT13 *************************/
@@ -104,8 +91,8 @@ int print_rot13string(va_list types, char buffer[],
 	        char *str;
 		    unsigned int i, j;
 		        int count = 0;
-			    char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-			        char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
 				    str = va_arg(types, char *);
 				        UNUSED(buffer);
@@ -115,11 +102,9 @@ int print_rot13string(va_list types, char buffer[],
 						        UNUSED(proportion);
 
 							    if (str == NULL)
-								            str = "(AHYY)";
-							        for (i = 0; str[i]; i++)
-									    {
-										            for (j = 0; in[j]; j++)
-												            {
+								 str = "(AHYY)";
+							for (i = 0; str[i]; i++)
+									    {										            for (j = 0; in[j]; j++)												            {
 														                if (in[j] == str[i])
 																	            {
 																			                    x = out[j];
@@ -193,4 +178,3 @@ int print_string(va_list types, char buffer[],
 
 						        return (write(1, str, length));
 }
-
